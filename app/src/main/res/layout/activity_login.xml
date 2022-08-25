@@ -52,6 +52,7 @@
             app:boxCornerRadiusTopEnd="30dp"
             app:boxCornerRadiusTopStart="30dp"
             app:endIconMode="clear_text"
+            app:endIconTint="?attr/colorOnPrimary"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +66,8 @@
                 android:layout_height="64dp"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="?attr/colorOnPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,41 +97,42 @@
                 android:layout_height="64dp"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="?attr/colorOnPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/btn_rounded"
             android:layout_marginTop="40dp"
+            android:background="@drawable/btn_rounded"
             android:text="@string/login"
-            app:layout_constraintTop_toBottomOf="@id/layout_password"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_password" />
 
         <TextView
             android:id="@+id/tv_dont_have_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dont_have_account"
-            app:layout_constraintTop_toBottomOf="@id/btn_login"
-            android:textColor="?attr/colorOnPrimary"
             android:layout_marginTop="40dp"
+            android:text="@string/dont_have_account"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="16sp"
-            android:textAlignment="center"/>
+            app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
         <TextView
             android:id="@+id/tv_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register"
-            app:layout_constraintTop_toBottomOf="@id/tv_dont_have_account"
+            android:textAlignment="center"
             android:textColor="?attr/colorPrimary"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textAlignment="center"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_dont_have_account" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

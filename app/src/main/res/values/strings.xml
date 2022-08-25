@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Inter Story App</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -16,4 +15,5 @@
     <string name="welcome_register">Please input your name, email, and password to register.</string>
     <string name="name">Name</string>
     <string name="already_have_account">Already have an account?</string>
+    <string name="char_length">Password must be more than 6 characters</string>
 </resources>
