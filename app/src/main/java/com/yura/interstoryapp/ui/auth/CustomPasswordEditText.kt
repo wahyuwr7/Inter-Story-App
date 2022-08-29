@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.yura.interstoryapp.R
 
-class CustomViewPassword : AppCompatEditText {
+class CustomPasswordEditText : AppCompatEditText {
     private var length = 0
 
     constructor(context: Context) : super(context) {
