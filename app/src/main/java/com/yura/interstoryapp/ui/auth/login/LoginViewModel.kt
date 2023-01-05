@@ -18,14 +18,14 @@ import retrofit2.Response
 class LoginViewModel(
     private val pref: UserPrefs
 ) : ViewModel() {
-    fun login(email: String, password: String, context: Context): LiveData<Boolean>{
+    fun login(email: String, password: String, context: Context): LiveData<Boolean> {
         val isLogin = MutableLiveData<Boolean>()
         val service = ApiConfig.getApiService()
 
-        service.login(email, password).enqueue(object : Callback<LoginResponse>{
+        service.login(email, password).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val responseBody = response.body()
-                if (responseBody?.error == false){
+                if (responseBody?.error == false) {
                     LoginResponse(
                         LoginResult(
                             name = responseBody.loginResult?.name,
@@ -35,9 +35,11 @@ class LoginViewModel(
                     )
                     responseBody.loginResult?.let { saveUserData(it, email) }
                     isLogin.postValue(true)
-                    Toast.makeText(context, responseBody.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, responseBody.message.toString(), Toast.LENGTH_SHORT)
+                        .show()
                 } else {
-                    Toast.makeText(context, responseBody?.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, responseBody?.message.toString(), Toast.LENGTH_SHORT)
+                        .show()
                     isLogin.postValue(false)
                 }
             }

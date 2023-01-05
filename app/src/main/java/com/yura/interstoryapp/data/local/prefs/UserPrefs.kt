@@ -63,7 +63,7 @@ class UserPrefs private constructor(private val dataStore: DataStore<Preferences
         }
     }
 
-    suspend fun deletePrefs(){
+    suspend fun deletePrefs() {
         dataStore.edit { preferences ->
             preferences[email] = ""
             preferences[token] = ""

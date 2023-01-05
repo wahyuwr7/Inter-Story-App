@@ -21,11 +21,11 @@ object Utils {
 
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-    var backPressedTime : Long = 0
+    var backPressedTime: Long = 0
 
     private const val FILENAME_FORMAT = "dd-MMM-yy"
 
-    private fun reduceFileImage(file: File): File {
+    fun reduceFileImage(file: File): File {
         val bitmap = BitmapFactory.decodeFile(file.path)
         var compressQuality = 100
         var streamLength: Int
@@ -44,7 +44,7 @@ object Utils {
         val matrix = Matrix()
         return if (isBackCamera) {
             matrix.postRotate(90f)
-            Bitmap.createBitmap(bitmap, 0, 0, bitmap.width ,bitmap.height, matrix,  true)
+            Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         } else {
             matrix.postRotate(-90f)
             matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f) // flip gambar
@@ -79,7 +79,7 @@ object Utils {
         return File(outputDirectory, "$timeStamp.jpg")
     }
 
-    fun createCustomTempFile(context: Context): File {
+    private fun createCustomTempFile(context: Context): File {
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(timeStamp, ".jpg", storageDir)
     }
@@ -88,4 +88,25 @@ object Utils {
         FILENAME_FORMAT,
         Locale.US
     ).format(System.currentTimeMillis())
+
+    fun bitmapToFile(bitmap: Bitmap): File? {
+        var file: File? = null
+        return try {
+            file = File(Environment.getExternalStorageDirectory().toString() + File.separator + "$timeStamp.jpg")
+            file.createNewFile()
+
+            val bos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+            val bitmapData = bos.toByteArray()
+
+            val fos = FileOutputStream(file)
+            fos.write(bitmapData)
+            fos.flush()
+            fos.close()
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            file
+        }
+    }
 }

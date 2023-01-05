@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -13,8 +14,8 @@ import com.yura.interstoryapp.data.Utils.backPressedTime
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityLoginBinding
-import com.yura.interstoryapp.ui.stories.StoriesActivity
 import com.yura.interstoryapp.ui.auth.register.RegisterActivity
+import com.yura.interstoryapp.ui.stories.StoriesActivity
 import com.yura.interstoryapp.ui.viewmodel.VMFactory
 
 class LoginActivity : AppCompatActivity() {
@@ -27,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loadingState(false)
+
+        backPressed()
 
         val pref = UserPrefs.getInstance(dataStore)
         val viewModel = ViewModelProvider(this, VMFactory(pref))[LoginViewModel::class.java]
@@ -54,13 +57,34 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.login(email, password, this@LoginActivity)
                         .observe(this@LoginActivity) { isLogin ->
                             if (isLogin) {
-                                startActivity(Intent(this@LoginActivity, StoriesActivity::class.java))
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        StoriesActivity::class.java
+                                    )
+                                )
                             } else {
                                 loadingState(false)
                             }
                         }
                 }
             }
+        }
+    }
+
+    fun backPressed() {
+        onBackPressedDispatcher.addCallback(this@LoginActivity) {
+            if (backPressedTime + 3000 > System.currentTimeMillis()) {
+                onBackPressedDispatcher.onBackPressed()
+                finishAffinity()
+            } else {
+                Toast.makeText(
+                    this@LoginActivity,
+                    getString(R.string.press_back_again),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            backPressedTime = System.currentTimeMillis()
         }
     }
 
@@ -76,15 +100,5 @@ class LoginActivity : AppCompatActivity() {
                 btnLogin.isEnabled = true
             }
         }
-    }
-
-    override fun onBackPressed() {
-        if (backPressedTime + 3000 > System.currentTimeMillis()) {
-            super.onBackPressed()
-            finishAffinity()
-        } else {
-            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_LONG).show()
-        }
-        backPressedTime = System.currentTimeMillis()
     }
 }

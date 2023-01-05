@@ -7,6 +7,7 @@ import com.yura.interstoryapp.ui.auth.login.LoginViewModel
 import com.yura.interstoryapp.ui.auth.register.RegisterViewModel
 import com.yura.interstoryapp.ui.splash.EnterAppViewModel
 import com.yura.interstoryapp.ui.stories.StoriesViewModel
+import com.yura.interstoryapp.ui.stories.add.AddStoryViewModel
 
 class VMFactory(private val pref: UserPrefs) : ViewModelProvider.NewInstanceFactory() {
 
@@ -23,6 +24,9 @@ class VMFactory(private val pref: UserPrefs) : ViewModelProvider.NewInstanceFact
         }
         if (modelClass.isAssignableFrom(StoriesViewModel::class.java)) {
             return StoriesViewModel(pref) as T
+        }
+        if (modelClass.isAssignableFrom(AddStoryViewModel::class.java)) {
+            return AddStoryViewModel(pref) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

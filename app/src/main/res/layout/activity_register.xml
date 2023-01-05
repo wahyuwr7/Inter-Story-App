@@ -127,11 +127,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:fontFamily="sans-serif"
-                android:textSize="16sp"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

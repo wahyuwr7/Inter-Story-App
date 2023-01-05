@@ -41,4 +41,12 @@
     <string name="placeholder">placeholder</string>
     <string name="camera">camera</string>
     <string name="submit">submit</string>
+    <string name="add_image_first">Please add image first.</string>
+    <string name="fill_description">Please fill the description form</string>
+    <string name="net_failed">Network failed</string>
+    <string name="choose_picture">Choose a Picture</string>
+    <string name="not_permitted">Not permitted.</string>
+    <string name="capture">capture</string>
+    <string name="switch_camera">switch camera</string>
+    <string name="press_back_again">Press back again to exit.</string>
 </resources>

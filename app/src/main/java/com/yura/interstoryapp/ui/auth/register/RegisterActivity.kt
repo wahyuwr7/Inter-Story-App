@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.yura.interstoryapp.data.Utils.backPressedTime
+import com.yura.interstoryapp.R
+import com.yura.interstoryapp.data.Utils
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityRegisterBinding
@@ -23,6 +25,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loadingState(false)
+        backPressed()
 
         val pref = UserPrefs.getInstance(dataStore)
         val viewModel = ViewModelProvider(this, VMFactory(pref))[RegisterViewModel::class.java]
@@ -67,13 +70,19 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (backPressedTime + 3000 > System.currentTimeMillis()) {
-            super.onBackPressed()
-            finishAffinity()
-        } else {
-            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_LONG).show()
+    fun backPressed() {
+        onBackPressedDispatcher.addCallback(this@RegisterActivity) {
+            if (Utils.backPressedTime + 3000 > System.currentTimeMillis()) {
+                onBackPressedDispatcher.onBackPressed()
+                finishAffinity()
+            } else {
+                Toast.makeText(
+                    this@RegisterActivity,
+                    getString(R.string.press_back_again),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            Utils.backPressedTime = System.currentTimeMillis()
         }
-        backPressedTime = System.currentTimeMillis()
     }
 }

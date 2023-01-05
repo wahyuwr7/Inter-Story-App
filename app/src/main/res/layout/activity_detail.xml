@@ -21,10 +21,11 @@
                 android:id="@+id/img_detail"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:transitionName="@string/stories"
                 android:contentDescription="@string/stories"
                 android:scaleType="centerCrop"
+                android:transitionName="@string/stories"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="0dp"
                 tools:src="@tools:sample/avatars" />
 
             <androidx.cardview.widget.CardView
@@ -62,9 +63,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/first_user_char"
-                    android:transitionName="@string/first_char"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="22sp"
+                    android:transitionName="@string/first_char"
                     app:layout_constraintBottom_toBottomOf="@id/img_account"
                     app:layout_constraintEnd_toEndOf="@id/img_account"
                     app:layout_constraintStart_toStartOf="@id/img_account"
@@ -89,9 +90,9 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/description"
-                    android:transitionName="@string/description"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="16sp"
+                    android:transitionName="@string/description"
                     app:layout_constraintStart_toStartOf="@id/img_account"
                     app:layout_constraintTop_toBottomOf="@id/img_account" />
 
@@ -101,8 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/date"
-                    android:transitionName="@string/date"
                     android:textColor="@color/grey"
+                    android:transitionName="@string/date"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_description" />
 
@@ -116,20 +117,20 @@
         android:id="@+id/btn_back"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:cardCornerRadius="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:cardBackgroundColor="?attr/colorSecondary"
+        app:cardCornerRadius="12dp"
         app:cardElevation="5dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_baseline_arrow_back_24"
             android:contentDescription="@string/back"
+            android:src="@drawable/ic_baseline_arrow_back_24"
             app:tint="?attr/colorOnPrimary" />
 
     </androidx.cardview.widget.CardView>

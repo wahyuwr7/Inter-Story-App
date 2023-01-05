@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yura.interstoryapp">
 
+    <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +19,10 @@
         android:theme="@style/Theme.InterStoryApp"
         tools:targetApi="31">
         <activity
-            android:name=".AddStoryActivity"
+            android:name=".ui.stories.add.camera.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.stories.add.AddStoryActivity"
             android:exported="false" />
         <activity
             android:name=".ui.stories.detail.DetailActivity"

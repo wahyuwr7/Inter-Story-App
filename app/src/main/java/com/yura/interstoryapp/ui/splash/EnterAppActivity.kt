@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityEnterAppBinding
-import com.yura.interstoryapp.ui.stories.StoriesActivity
 import com.yura.interstoryapp.ui.auth.login.LoginActivity
+import com.yura.interstoryapp.ui.stories.StoriesActivity
 import com.yura.interstoryapp.ui.viewmodel.VMFactory
 
 class EnterAppActivity : AppCompatActivity() {
