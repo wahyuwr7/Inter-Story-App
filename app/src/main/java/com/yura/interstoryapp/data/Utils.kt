@@ -1,5 +1,6 @@
 package com.yura.interstoryapp.data
 
+import android.app.Activity
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
@@ -8,13 +9,20 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import android.provider.Settings.Global.getString
+import android.widget.Toast
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.addCallback
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.LifecycleOwner
 import com.yura.interstoryapp.R
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.system.exitProcess
 
 object Utils {
     const val baseUrl = "https://story-api.dicoding.dev/v1/"
@@ -24,6 +32,14 @@ object Utils {
     var backPressedTime: Long = 0
 
     private const val FILENAME_FORMAT = "dd-MMM-yy"
+
+    fun backPressedToast(context: Context){
+        Toast.makeText(
+            context,
+            context.getString(R.string.press_back_again),
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
     fun reduceFileImage(file: File): File {
         val bitmap = BitmapFactory.decodeFile(file.path)
@@ -92,7 +108,10 @@ object Utils {
     fun bitmapToFile(bitmap: Bitmap): File? {
         var file: File? = null
         return try {
-            file = File(Environment.getExternalStorageDirectory().toString() + File.separator + "$timeStamp.jpg")
+            file = File(
+                Environment.getExternalStorageDirectory()
+                    .toString() + File.separator + "$timeStamp.jpg"
+            )
             file.createNewFile()
 
             val bos = ByteArrayOutputStream()

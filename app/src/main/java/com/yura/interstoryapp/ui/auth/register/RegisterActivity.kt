@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.yura.interstoryapp.R
 import com.yura.interstoryapp.data.Utils
@@ -56,6 +57,18 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun backPressed() {
+        onBackPressedDispatcher.addCallback(this) {
+            if (Utils.backPressedTime + 3000 > System.currentTimeMillis()) {
+                onBackPressedDispatcher.onBackPressed()
+                ActivityCompat.finishAffinity(this@RegisterActivity)
+            } else {
+                Utils.backPressedToast(this@RegisterActivity)
+            }
+            Utils.backPressedTime = System.currentTimeMillis()
+        }
+    }
+
     private fun loadingState(state: Boolean) {
         if (state) {
             binding.apply {
@@ -67,22 +80,6 @@ class RegisterActivity : AppCompatActivity() {
                 progressCircular.visibility = View.GONE
                 btnRegister.isEnabled = true
             }
-        }
-    }
-
-    fun backPressed() {
-        onBackPressedDispatcher.addCallback(this@RegisterActivity) {
-            if (Utils.backPressedTime + 3000 > System.currentTimeMillis()) {
-                onBackPressedDispatcher.onBackPressed()
-                finishAffinity()
-            } else {
-                Toast.makeText(
-                    this@RegisterActivity,
-                    getString(R.string.press_back_again),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            Utils.backPressedTime = System.currentTimeMillis()
         }
     }
 }

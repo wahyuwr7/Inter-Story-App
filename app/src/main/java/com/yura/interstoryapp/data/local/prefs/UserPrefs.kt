@@ -12,7 +12,6 @@ class UserPrefs private constructor(private val dataStore: DataStore<Preferences
 
     private val isLoggedIn = booleanPreferencesKey("isLoggedIn")
     private val name = stringPreferencesKey("name")
-    private val email = stringPreferencesKey("email")
     private val token = stringPreferencesKey("token")
 
     fun getUserLoginState(): Flow<Boolean> {
@@ -51,21 +50,8 @@ class UserPrefs private constructor(private val dataStore: DataStore<Preferences
         }
     }
 
-    fun getUserEmail(): Flow<String> {
-        return dataStore.data.map { preferences ->
-            preferences[email] ?: ""
-        }
-    }
-
-    suspend fun saveUserEmail(userEmail: String) {
-        dataStore.edit { preferences ->
-            preferences[email] = userEmail
-        }
-    }
-
     suspend fun deletePrefs() {
         dataStore.edit { preferences ->
-            preferences[email] = ""
             preferences[token] = ""
             preferences[name] = ""
             preferences[isLoggedIn] = false

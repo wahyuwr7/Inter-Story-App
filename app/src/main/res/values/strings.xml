@@ -19,11 +19,6 @@
     <string name="email_error">Please input a correct email</string>
     <string name="logout">Logout</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="first_char">First Char</string>
     <string name="circle">Circle</string>
@@ -49,4 +44,6 @@
     <string name="capture">capture</string>
     <string name="switch_camera">switch camera</string>
     <string name="press_back_again">Press back again to exit.</string>
+    <string name="email">email</string>
+    <string name="cancel">Cancel</string>
 </resources>

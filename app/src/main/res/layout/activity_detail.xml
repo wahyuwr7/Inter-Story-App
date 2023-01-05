@@ -48,7 +48,7 @@
                 tools:layout_editor_absoluteX="-2dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_account"
+                    android:id="@+id/btn_bar_logout"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
@@ -66,10 +66,10 @@
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="22sp"
                     android:transitionName="@string/first_char"
-                    app:layout_constraintBottom_toBottomOf="@id/img_account"
-                    app:layout_constraintEnd_toEndOf="@id/img_account"
-                    app:layout_constraintStart_toStartOf="@id/img_account"
-                    app:layout_constraintTop_toTopOf="@id/img_account" />
+                    app:layout_constraintBottom_toBottomOf="@id/btn_bar_logout"
+                    app:layout_constraintEnd_toEndOf="@id/btn_bar_logout"
+                    app:layout_constraintStart_toStartOf="@id/btn_bar_logout"
+                    app:layout_constraintTop_toTopOf="@id/btn_bar_logout" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -80,9 +80,9 @@
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/img_account"
-                    app:layout_constraintStart_toEndOf="@id/img_account"
-                    app:layout_constraintTop_toTopOf="@id/img_account" />
+                    app:layout_constraintBottom_toBottomOf="@id/btn_bar_logout"
+                    app:layout_constraintStart_toEndOf="@id/btn_bar_logout"
+                    app:layout_constraintTop_toTopOf="@id/btn_bar_logout" />
 
                 <TextView
                     android:id="@+id/tv_description"
@@ -93,8 +93,8 @@
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="16sp"
                     android:transitionName="@string/description"
-                    app:layout_constraintStart_toStartOf="@id/img_account"
-                    app:layout_constraintTop_toBottomOf="@id/img_account" />
+                    app:layout_constraintStart_toStartOf="@id/btn_bar_logout"
+                    app:layout_constraintTop_toBottomOf="@id/btn_bar_logout" />
 
                 <TextView
                     android:id="@+id/tv_created_at"

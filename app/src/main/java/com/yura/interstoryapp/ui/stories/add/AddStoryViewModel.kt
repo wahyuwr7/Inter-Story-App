@@ -40,11 +40,11 @@ class AddStoryViewModel(private val pref: UserPrefs) : ViewModel() {
                     if (responseBody != null && responseBody.error == false) {
                         Toast.makeText(context, responseBody.message, Toast.LENGTH_SHORT)
                             .show()
+                        state.value = true
+                    } else {
+                        Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
+                        state.value = false
                     }
-                    state.value = true
-                } else {
-                    Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
-                    state.value = false
                 }
             }
 

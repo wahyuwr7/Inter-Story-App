@@ -6,6 +6,7 @@ import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -69,11 +70,13 @@ class AddStoryActivity : AppCompatActivity() {
                 val file = getFile
                 val stringDescription = etDescription.text.toString()
 
-                val requestImageFile = file?.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val reducedFile = file?.let { reduceFileImage(it) }
+
+                val requestImageFile = reducedFile?.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 val imageMultipart: MultipartBody.Part? = requestImageFile?.let {
                     MultipartBody.Part.createFormData(
                         "photo",
-                        file.name,
+                        reducedFile.name,
                         it
                     )
                 }
@@ -133,20 +136,24 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     private var getFile: File? = null
+
     private val launcherIntentCameraX = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == CAMERA_X_RESULT) {
-            val myFile = it.data?.getSerializableExtra("picture") as File
+            val myFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.data?.getSerializableExtra("picture", File::class.java)
+            } else {
+                it.data?.getSerializableExtra("picture") as File
+            }
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
 
-            val reducedFile = reduceFileImage(myFile)
+            getFile = myFile
 
             val result = rotateBitmap(
-                BitmapFactory.decodeFile(reducedFile.path),
+                BitmapFactory.decodeFile(myFile?.path),
                 isBackCamera
             )
-            getFile = bitmapToFile(result)
 
             binding.imgPlaceholder.setImageBitmap(result)
         }
@@ -170,7 +177,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     companion object {
         const val CAMERA_X_RESULT = 101
-
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }

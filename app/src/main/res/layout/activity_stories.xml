@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_account"
+            android:id="@+id/btn_bar_logout"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="?attr/colorPrimary"
@@ -47,10 +47,10 @@
             android:text="@string/first_user_char"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@id/img_account"
-            app:layout_constraintEnd_toEndOf="@id/img_account"
-            app:layout_constraintStart_toStartOf="@id/img_account"
-            app:layout_constraintTop_toTopOf="@id/img_account" />
+            app:layout_constraintBottom_toBottomOf="@id/btn_bar_logout"
+            app:layout_constraintEnd_toEndOf="@id/btn_bar_logout"
+            app:layout_constraintStart_toStartOf="@id/btn_bar_logout"
+            app:layout_constraintTop_toTopOf="@id/btn_bar_logout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
