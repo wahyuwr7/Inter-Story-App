@@ -3,13 +3,8 @@ package com.yura.interstoryapp.ui.auth.register
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import com.yura.interstoryapp.R
-import com.yura.interstoryapp.data.Utils
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityRegisterBinding
@@ -26,7 +21,6 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loadingState(false)
-        backPressed()
 
         val pref = UserPrefs.getInstance(dataStore)
         val viewModel = ViewModelProvider(this, VMFactory(pref))[RegisterViewModel::class.java]
@@ -54,18 +48,6 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-    }
-
-    private fun backPressed() {
-        onBackPressedDispatcher.addCallback(this) {
-            if (Utils.backPressedTime + 3000 > System.currentTimeMillis()) {
-                onBackPressedDispatcher.onBackPressed()
-                ActivityCompat.finishAffinity(this@RegisterActivity)
-            } else {
-                Utils.backPressedToast(this@RegisterActivity)
-            }
-            Utils.backPressedTime = System.currentTimeMillis()
         }
     }
 

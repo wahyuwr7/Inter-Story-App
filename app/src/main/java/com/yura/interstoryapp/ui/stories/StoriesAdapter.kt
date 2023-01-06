@@ -60,7 +60,7 @@ class StoriesAdapter(private val listStories: ArrayList<ListStoryItem?>?) :
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         itemView.context as Activity,
                         Pair(imgStory, "Stories"),
-                        Pair(tvName, "Name"),
+                        Pair(tvUsername, "Name"),
                         Pair(tvFirstUserChar, "First Char"),
                         Pair(tvCreatedAt, "2022–08–22"),
                         Pair(tvDescription, "Description")

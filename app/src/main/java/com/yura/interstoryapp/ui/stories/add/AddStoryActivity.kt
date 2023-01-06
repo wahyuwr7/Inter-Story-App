@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -89,7 +90,7 @@ class AddStoryActivity : AppCompatActivity() {
                     imageMultipart?.let {
                         viewModel.uploadStory(token, stringDescription, it, context)
                             .observe(context) { state ->
-                                btnSubmit.isEnabled = !state
+                                loadingState(state)
                                 if (state) {
                                     finish()
                                 }
@@ -148,17 +149,19 @@ class AddStoryActivity : AppCompatActivity() {
             }
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
 
-            getFile = myFile
-
             val result = rotateBitmap(
                 BitmapFactory.decodeFile(myFile?.path),
                 isBackCamera
             )
 
+            val rotatedImage = bitmapToFile(result, this)
+            val reducedFile = reduceFileImage(rotatedImage)
+
+            getFile = reducedFile
+
             binding.imgPlaceholder.setImageBitmap(result)
         }
     }
-
 
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -175,9 +178,24 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadingState(state: Boolean) {
+        if (state) {
+            binding.apply {
+                progressCircular.visibility = View.VISIBLE
+                btnSubmit.isEnabled = false
+            }
+        } else {
+            binding.apply {
+                progressCircular.visibility = View.GONE
+                btnSubmit.isEnabled = true
+            }
+        }
+    }
+
     companion object {
         const val CAMERA_X_RESULT = 101
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
+
 }

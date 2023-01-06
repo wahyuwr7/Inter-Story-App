@@ -35,7 +35,7 @@ class CustomPasswordEditText : AppCompatEditText {
 
             override fun onTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 length = start + after
-                error = if (length < 6) {
+                error = if (length < 8) {
                     resources.getString(R.string.char_length)
                 } else null
             }

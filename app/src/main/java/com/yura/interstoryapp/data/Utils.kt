@@ -1,44 +1,35 @@
 package com.yura.interstoryapp.data
 
-import android.app.Activity
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
-import android.provider.Settings.Global.getString
-import android.widget.Toast
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.addCallback
-import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.LifecycleOwner
 import com.yura.interstoryapp.R
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.system.exitProcess
 
 object Utils {
     const val baseUrl = "https://story-api.dicoding.dev/v1/"
 
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-    var backPressedTime: Long = 0
-
     private const val FILENAME_FORMAT = "dd-MMM-yy"
 
-    fun backPressedToast(context: Context){
-        Toast.makeText(
-            context,
-            context.getString(R.string.press_back_again),
-            Toast.LENGTH_LONG
-        ).show()
+    fun startIntent(context: Context, clazz: Class<*>) {
+        val i = Intent(context, clazz)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(context, i, null)
     }
 
     fun reduceFileImage(file: File): File {
@@ -105,27 +96,14 @@ object Utils {
         Locale.US
     ).format(System.currentTimeMillis())
 
-    fun bitmapToFile(bitmap: Bitmap): File? {
-        var file: File? = null
-        return try {
-            file = File(
-                Environment.getExternalStorageDirectory()
-                    .toString() + File.separator + "$timeStamp.jpg"
-            )
-            file.createNewFile()
-
-            val bos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-            val bitmapData = bos.toByteArray()
-
-            val fos = FileOutputStream(file)
-            fos.write(bitmapData)
-            fos.flush()
-            fos.close()
-            file
-        } catch (e: Exception) {
-            e.printStackTrace()
-            file
-        }
+    fun bitmapToFile(bitmap: Bitmap, context: Context): File {
+        val wrapper = ContextWrapper(context)
+        var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
+        file = File(file,"$timeStamp.jpg")
+        val stream: OutputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG,25,stream)
+        stream.flush()
+        stream.close()
+        return file
     }
 }

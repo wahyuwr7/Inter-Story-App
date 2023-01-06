@@ -1,5 +1,7 @@
 package com.yura.interstoryapp.ui.stories.logout
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +10,11 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.yura.interstoryapp.R
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.FragmentPopupLogoutBinding
-import com.yura.interstoryapp.ui.splash.EnterAppActivity
+import com.yura.interstoryapp.ui.auth.login.LoginActivity
 import com.yura.interstoryapp.ui.viewmodel.VMFactory
 
 class PopupLogoutFragment : DialogFragment() {
@@ -41,27 +44,31 @@ class PopupLogoutFragment : DialogFragment() {
 
     private fun setupView(viewModel: PopupLogoutViewModel) {
         binding.apply {
-            viewModel.getUsername().observe(viewLifecycleOwner){
-                tvFirstUserChar.text = it[0].toString()
-                tvPopupUsername.text = it
+            viewModel.getUsername().observe(viewLifecycleOwner) {
+                if (!it.isNullOrEmpty()) {
+                    tvFirstUserChar.text = it[0].toString()
+                    tvPopupUsername.text = it
+                }
             }
         }
     }
 
     override fun onStart() {
         super.onStart()
-        val popupHeight = 1000
-        dialog?.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            popupHeight
-        )
+        dialog?.window?.apply {
+            setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                900
+            )
+        }
     }
 
     private fun setupClickListeners(viewModel: PopupLogoutViewModel) {
         binding.btnLogout.setOnClickListener {
-            viewModel.deleteUserPrefs()
-            startActivity(Intent(requireContext(), EnterAppActivity::class.java))
-            dismiss()
+            ConfirmationDialogFragment(viewModel).show(
+                childFragmentManager, ConfirmationDialogFragment.TAG
+            )
+//            dismiss()
         }
         binding.btnCancel.setOnClickListener {
             dismiss()
@@ -70,5 +77,30 @@ class PopupLogoutFragment : DialogFragment() {
 
     companion object {
         const val TAG = "PopupLogout"
+    }
+}
+
+class ConfirmationDialogFragment(viewModel: PopupLogoutViewModel) : DialogFragment() {
+    private val vm = viewModel
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        AlertDialog.Builder(requireContext())
+            .setMessage(getString(R.string.confirmation_logout))
+            .setPositiveButton(getString(R.string.logout)) { _, _ ->
+                vm.deleteUserPrefs()
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        LoginActivity::class.java
+                    )
+                )
+                activity?.finish()
+            }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                dismiss()
+            }
+            .create()
+
+    companion object {
+        const val TAG = "ConfirmationDialog"
     }
 }
