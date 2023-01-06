@@ -48,7 +48,7 @@ class StoriesAdapter(private val listStories: ArrayList<ListStoryItem?>?) :
 
                 val descLength = stories.description?.length
                 if (descLength != null && descLength > 25) {
-                    tvDescription.text = "${stories.description.substring(0,24)}..."
+                    tvDescription.text = "${stories.description.substring(0, 24)}..."
                 } else {
                     tvDescription.text = stories.description
                 }

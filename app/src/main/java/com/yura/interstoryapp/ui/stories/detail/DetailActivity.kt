@@ -1,5 +1,6 @@
 package com.yura.interstoryapp.ui.stories.detail
 
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -15,7 +16,11 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val extras = intent.getParcelableExtra<ListStoryItem>(DATA)
+        val extras = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra(DATA, ListStoryItem::class.java)
+        } else {
+            intent.getParcelableExtra(DATA)
+        }
 
         binding.apply {
             if (extras != null) {

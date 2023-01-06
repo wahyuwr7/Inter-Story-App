@@ -2,17 +2,28 @@ package com.yura.interstoryapp.ui.stories
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.*
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yura.interstoryapp.R
+import com.yura.interstoryapp.data.Utils
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.data.remote.response.ListStoryItem
 import com.yura.interstoryapp.databinding.ActivityStoriesBinding
+import com.yura.interstoryapp.ui.splash.EnterAppActivity
+import com.yura.interstoryapp.ui.splash.EnterAppActivity.Companion.fromBack
+import com.yura.interstoryapp.ui.stories.add.AddStoryActivity
 import com.yura.interstoryapp.ui.stories.detail.DetailActivity
 import com.yura.interstoryapp.ui.stories.detail.DetailActivity.Companion.DATA
+import com.yura.interstoryapp.ui.stories.logout.PopupLogoutFragment
 import com.yura.interstoryapp.ui.viewmodel.VMFactory
+import kotlin.system.exitProcess
 
 class StoriesActivity : AppCompatActivity() {
 
@@ -29,14 +40,28 @@ class StoriesActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, VMFactory(pref))[StoriesViewModel::class.java]
 
         showStories()
+        backPressed()
+        getProfile()
 
-        binding.layoutRefresh.setOnRefreshListener {
-            showStories()
+        binding.apply {
+            layoutRefresh.setOnRefreshListener {
+                showStories()
+            }
+            btnAddStory.setOnClickListener {
+                startActivity(Intent(this@StoriesActivity, AddStoryActivity::class.java))
+            }
+            btnBarLogout.setOnClickListener {
+                val childFragmentManager = supportFragmentManager
+                PopupLogoutFragment().show(
+                    childFragmentManager, PopupLogoutFragment.TAG
+                )
+            }
         }
+
     }
 
     private fun goToDetail(adapter: StoriesAdapter) {
-        adapter.setOnItemClickCallback(object : StoriesAdapter.OnItemClickCallback{
+        adapter.setOnItemClickCallback(object : StoriesAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ListStoryItem, optionsCompat: ActivityOptionsCompat) {
                 showStories()
                 startActivity(
@@ -48,6 +73,24 @@ class StoriesActivity : AppCompatActivity() {
         })
     }
 
+    private fun getProfile() {
+        viewModel.getUsername().observe(this) {
+            binding.txtFirstUserChar.text = it[0].toString()
+        }
+    }
+
+    private fun backPressed() {
+        onBackPressedDispatcher.addCallback(this) {
+            if (Utils.backPressedTime + 3000 > System.currentTimeMillis()) {
+                onBackPressedDispatcher.onBackPressed()
+                finishAffinity()
+                finishActivity(0)
+            } else {
+                Utils.backPressedToast(this@StoriesActivity)
+            }
+            Utils.backPressedTime = System.currentTimeMillis()
+        }
+    }
 
     @Suppress("UNCHECKED_CAST")
     private fun showStories() {
