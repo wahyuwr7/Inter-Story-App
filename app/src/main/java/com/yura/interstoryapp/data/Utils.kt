@@ -24,6 +24,8 @@ object Utils {
 
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
+    var itemPosition: Int = 0
+
     private const val FILENAME_FORMAT = "dd-MMM-yy"
 
     fun startIntent(context: Context, clazz: Class<*>) {
@@ -99,9 +101,9 @@ object Utils {
     fun bitmapToFile(bitmap: Bitmap, context: Context): File {
         val wrapper = ContextWrapper(context)
         var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
-        file = File(file,"$timeStamp.jpg")
+        file = File(file, "$timeStamp.jpg")
         val stream: OutputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG,25,stream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, stream)
         stream.flush()
         stream.close()
         return file

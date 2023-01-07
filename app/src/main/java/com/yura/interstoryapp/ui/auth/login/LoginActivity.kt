@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
 
             tvRegister.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+                finish()
             }
 
             btnLogin.setOnClickListener {

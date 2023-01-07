@@ -1,8 +1,11 @@
 package com.yura.interstoryapp.ui.auth.register
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.yura.interstoryapp.data.Utils.dataStore
@@ -21,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loadingState(false)
+        backPressed()
 
         val pref = UserPrefs.getInstance(dataStore)
         val viewModel = ViewModelProvider(this, VMFactory(pref))[RegisterViewModel::class.java]
@@ -28,6 +32,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.apply {
             tvLogin.setOnClickListener {
                 startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                finish()
             }
 
             btnRegister.setOnClickListener {
@@ -47,6 +52,20 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun backPressed() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) {
+                finish()
+            }
+        } else {
+            onBackPressedDispatcher.addCallback(this@RegisterActivity) {
+                finish()
             }
         }
     }
