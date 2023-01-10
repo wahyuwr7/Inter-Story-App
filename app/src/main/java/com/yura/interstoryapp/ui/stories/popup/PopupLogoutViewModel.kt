@@ -1,4 +1,4 @@
-package com.yura.interstoryapp.ui.stories.logout
+package com.yura.interstoryapp.ui.stories.popup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

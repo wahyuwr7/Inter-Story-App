@@ -15,7 +15,7 @@ import com.yura.interstoryapp.data.Utils.itemPosition
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityStoriesBinding
 import com.yura.interstoryapp.ui.stories.add.AddStoryActivity
-import com.yura.interstoryapp.ui.stories.logout.PopupLogoutFragment
+import com.yura.interstoryapp.ui.stories.popup.PopupLogoutFragment
 import com.yura.interstoryapp.ui.viewmodel.VMFactory
 
 class StoriesActivity : AppCompatActivity() {
@@ -95,5 +95,4 @@ class StoriesActivity : AppCompatActivity() {
             }
         }
     }
-
 }

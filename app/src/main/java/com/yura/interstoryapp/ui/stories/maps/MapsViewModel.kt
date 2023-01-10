@@ -1,4 +1,4 @@
-package com.yura.interstoryapp.ui.stories
+package com.yura.interstoryapp.ui.stories.maps
 
 import android.content.Context
 import android.widget.Toast
@@ -14,12 +14,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class StoriesViewModel(private val pref: UserPrefs) : ViewModel() {
+class MapsViewModel(private val pref: UserPrefs) : ViewModel() {
 
-    fun getStories(token: String, context: Context): LiveData<ArrayList<ListStoryItem?>?> {
+    fun getMapStories(token: String, context: Context): LiveData<ArrayList<ListStoryItem?>?> {
         val auth = "Bearer $token"
         val result = MutableLiveData<ArrayList<ListStoryItem?>?>()
-        val service = ApiConfig.getApiService().getStories(auth, 1, 10)
+        val service = ApiConfig.getApiService().getStoriesWithLocation(auth, 1)
 
         service.enqueue(object : Callback<StoriesResponse> {
             override fun onResponse(
@@ -43,9 +43,4 @@ class StoriesViewModel(private val pref: UserPrefs) : ViewModel() {
     fun getUserToken(): LiveData<String> {
         return pref.getUserToken().asLiveData()
     }
-
-    fun getUsername(): LiveData<String> {
-        return pref.getUserName().asLiveData()
-    }
-
 }

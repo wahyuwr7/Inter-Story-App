@@ -26,7 +26,15 @@ interface IApi {
 
     @GET("stories")
     fun getStories(
-        @Header("Authorization") auth: String
+        @Header("Authorization") auth: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Call<StoriesResponse>
+
+    @GET("stories")
+    fun getStoriesWithLocation(
+        @Header("Authorization") auth: String,
+        @Query("location") location: Int
     ): Call<StoriesResponse>
 
     @Multipart

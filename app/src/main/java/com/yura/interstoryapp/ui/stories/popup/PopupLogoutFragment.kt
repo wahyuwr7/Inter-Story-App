@@ -1,4 +1,4 @@
-package com.yura.interstoryapp.ui.stories.logout
+package com.yura.interstoryapp.ui.stories.popup
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -15,6 +15,7 @@ import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.FragmentPopupLogoutBinding
 import com.yura.interstoryapp.ui.auth.login.LoginActivity
+import com.yura.interstoryapp.ui.stories.maps.MapsActivity
 import com.yura.interstoryapp.ui.viewmodel.VMFactory
 
 class PopupLogoutFragment : DialogFragment() {
@@ -55,10 +56,12 @@ class PopupLogoutFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
+        val width = WindowManager.LayoutParams.MATCH_PARENT
+        val height = resources.displayMetrics.heightPixels / 1.5
         dialog?.window?.apply {
             setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                900
+                width,
+                height.toInt()
             )
         }
     }
@@ -71,6 +74,7 @@ class PopupLogoutFragment : DialogFragment() {
 //            dismiss()
         }
         binding.btnCancel.setOnClickListener {
+            startActivity(Intent(requireContext(), MapsActivity::class.java))
             dismiss()
         }
     }
@@ -80,7 +84,7 @@ class PopupLogoutFragment : DialogFragment() {
     }
 }
 
-class ConfirmationDialogFragment(viewModel: PopupLogoutViewModel) : DialogFragment() {
+class ConfirmationDialogFragment(viewModel: PopupLogoutViewModel) : DialogFragment(){
     private val vm = viewModel
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
