@@ -2,7 +2,10 @@ package com.yura.interstoryapp.ui.stories
 
 import android.content.Context
 import android.widget.Toast
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.data.remote.ApiConfig
 import com.yura.interstoryapp.data.remote.response.ListStoryItem
@@ -26,8 +29,6 @@ class StoriesViewModel(private val pref: UserPrefs) : ViewModel() {
                 val responseBody = response.body()
                 if (responseBody?.error == false) {
                     result.value = responseBody.listStory
-                } else {
-                    Toast.makeText(context, "${responseBody?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -43,7 +44,7 @@ class StoriesViewModel(private val pref: UserPrefs) : ViewModel() {
         return pref.getUserToken().asLiveData()
     }
 
-    fun getUsername() : LiveData<String>{
+    fun getUsername(): LiveData<String> {
         return pref.getUserName().asLiveData()
     }
 

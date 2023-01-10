@@ -2,6 +2,7 @@ package com.yura.interstoryapp.ui.stories
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
@@ -9,17 +10,14 @@ import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yura.interstoryapp.R
+import com.yura.interstoryapp.data.Utils.itemPosition
 import com.yura.interstoryapp.data.remote.response.ListStoryItem
 import com.yura.interstoryapp.databinding.ItemStoriesBinding
+import com.yura.interstoryapp.ui.stories.detail.DetailActivity
+import com.yura.interstoryapp.ui.stories.detail.DetailActivity.Companion.DATA
 
 class StoriesAdapter(private val listStories: ArrayList<ListStoryItem?>?) :
     RecyclerView.Adapter<StoriesAdapter.StoryViewHolder>() {
-
-    private lateinit var onItemClickCallback: OnItemClickCallback
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
         val binding =
@@ -67,7 +65,10 @@ class StoriesAdapter(private val listStories: ArrayList<ListStoryItem?>?) :
                     )
 
                 root.setOnClickListener {
-                    onItemClickCallback.onItemClicked(stories, optionsCompat)
+                    val intent = Intent(itemView.context, DetailActivity::class.java)
+                    intent.putExtra(DATA, stories)
+                    itemPosition = adapterPosition
+                    root.context.startActivity(intent, optionsCompat.toBundle())
                 }
             }
         }
@@ -85,9 +86,5 @@ class StoriesAdapter(private val listStories: ArrayList<ListStoryItem?>?) :
                 R.color.yellow
             }
         }
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(data: ListStoryItem, optionsCompat: ActivityOptionsCompat)
     }
 }

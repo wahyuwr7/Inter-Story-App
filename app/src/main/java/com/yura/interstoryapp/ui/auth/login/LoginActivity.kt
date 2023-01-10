@@ -1,31 +1,22 @@
 package com.yura.interstoryapp.ui.auth.login
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import android.widget.Toast
-import androidx.activity.OnBackPressedDispatcher
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.yura.interstoryapp.R
-import com.yura.interstoryapp.data.Utils.backPressedTime
-import com.yura.interstoryapp.data.Utils.backPressedToast
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityLoginBinding
 import com.yura.interstoryapp.ui.auth.register.RegisterActivity
-import com.yura.interstoryapp.ui.splash.EnterAppActivity
-import com.yura.interstoryapp.ui.splash.EnterAppActivity.Companion.fromBack
 import com.yura.interstoryapp.ui.stories.StoriesActivity
 import com.yura.interstoryapp.ui.viewmodel.VMFactory
-import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity() {
 
@@ -54,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
 
             tvRegister.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+                finish()
             }
 
             btnLogin.setOnClickListener {
@@ -72,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
                                         StoriesActivity::class.java
                                     )
                                 )
+                                finish()
                             } else {
                                 loadingState(false)
                             }
@@ -82,14 +75,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun backPressed() {
-        onBackPressedDispatcher.addCallback(this@LoginActivity) {
-            if (backPressedTime + 3000 > System.currentTimeMillis()) {
-                onBackPressedDispatcher.onBackPressed()
-                exitProcess(0)
-            } else {
-                backPressedToast(this@LoginActivity)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) {
+                finish()
             }
-            backPressedTime = System.currentTimeMillis()
+        } else {
+            onBackPressedDispatcher.addCallback(this@LoginActivity) {
+                finish()
+            }
         }
     }
 

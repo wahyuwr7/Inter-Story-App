@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="prompt_password">Kata Sandi</string>
+    <string name="welcome">"Selamat Datang "</string>
+    <string name="login">Masuk</string>
+    <string name="welcome_login">Selamat datang kembali! Masukkan email dan kata sandi untuk melanjutkan.</string>
+    <string name="dont_have_account">Belum mempunyai akun?</string>
+    <string name="register">Daftar</string>
+    <string name="welcome_register">Masukkan nama, email, dan kata sandi untuk mendaftar.</string>
+    <string name="name">Nama</string>
+    <string name="already_have_account">Sudah mempunyai akun?</string>
+    <string name="char_length">Kata sandi harus berjumlah minimal 8 karakter</string>
+    <string name="email_error">Mohon masukkan email yang valid</string>
+    <string name="logout">Keluar</string>
+    <string name="stories">Cerita</string>
+    <string name="description">Deskripsi</string>
+    <string name="add_story">Tambah Cerita</string>
+    <string name="camera">kamera</string>
+    <string name="add_image_first">Mohon tambahkan gambar terlebih dahulu</string>
+    <string name="fill_description">Mohon isi form deskripsi</string>
+    <string name="net_failed">Kesalahan jaringan</string>
+    <string name="choose_picture">Pilih Gambar</string>
+    <string name="not_permitted">Tidak diizinkan</string>
+    <string name="cancel">Batal</string>
+    <string name="confirmation_logout">Apakah anda yakin untuk keluar?</string>
+    <string name="menu_gallery">Galeri</string>
+    <string name="no_data">Ups, tidak ada data. Usap layar ke bawah untuk refresh.</string>
+</resources>

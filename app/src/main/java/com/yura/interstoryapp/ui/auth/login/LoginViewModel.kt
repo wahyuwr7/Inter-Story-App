@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yura.interstoryapp.R
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.data.remote.ApiConfig
 import com.yura.interstoryapp.data.remote.response.LoginResponse
@@ -34,18 +35,22 @@ class LoginViewModel(
                         )
                     )
                     responseBody.loginResult?.let { saveUserData(it) }
+                    Toast.makeText(context, buildString {
+                        append(context.getString(R.string.welcome))
+                        append(responseBody.loginResult?.name)
+                        append("!")
+                    }, Toast.LENGTH_SHORT)
+                        .show()
                     isLogin.postValue(true)
-//                    Toast.makeText(context, responseBody.message.toString(), Toast.LENGTH_SHORT)
-//                        .show()
                 } else {
-//                    Toast.makeText(context, responseBody?.message.toString(), Toast.LENGTH_SHORT)
-//                        .show()
+                    Toast.makeText(context, responseBody?.message.toString(), Toast.LENGTH_SHORT)
+                        .show()
                     isLogin.postValue(false)
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-//                Toast.makeText(context, t.message.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, t.message.toString(), Toast.LENGTH_SHORT).show()
                 isLogin.postValue(false)
             }
         })

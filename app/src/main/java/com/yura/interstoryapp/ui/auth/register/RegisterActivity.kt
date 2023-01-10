@@ -1,15 +1,13 @@
 package com.yura.interstoryapp.ui.auth.register
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import com.yura.interstoryapp.R
-import com.yura.interstoryapp.data.Utils
 import com.yura.interstoryapp.data.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityRegisterBinding
@@ -34,6 +32,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.apply {
             tvLogin.setOnClickListener {
                 startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                finish()
             }
 
             btnRegister.setOnClickListener {
@@ -58,14 +57,16 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun backPressed() {
-        onBackPressedDispatcher.addCallback(this) {
-            if (Utils.backPressedTime + 3000 > System.currentTimeMillis()) {
-                onBackPressedDispatcher.onBackPressed()
-                ActivityCompat.finishAffinity(this@RegisterActivity)
-            } else {
-                Utils.backPressedToast(this@RegisterActivity)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) {
+                finish()
             }
-            Utils.backPressedTime = System.currentTimeMillis()
+        } else {
+            onBackPressedDispatcher.addCallback(this@RegisterActivity) {
+                finish()
+            }
         }
     }
 
