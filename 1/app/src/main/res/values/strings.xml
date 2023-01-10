@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name" translatable="false">Inter Story App</string>
+    <string name="prompt_email" translatable="false">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="welcome">"Welcome "</string>
+    <string name="login">Login</string>
+    <string name="welcome_login">Welcome back! Please input your email and password to continue.</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="register">Register</string>
+    <string name="welcome_register">Please input your name, email, and password to register.</string>
+    <string name="name">Name</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="char_length">Password must be minimum 8 characters</string>
+    <string name="email_error">Please input a correct email</string>
+    <string name="logout">Logout</string>
+    <string name="first_char" translatable="false">First Char</string>
+
+    <string name="menu_gallery">Gallery</string>
+    <string name="stories">Stories</string>
+    <string name="first_user_char" translatable="false">W</string>
+    <string name="description">Description</string>
+    <string name="date" translatable="false">2022–08–22</string>
+    <string name="add_story">Add Story</string>
+    <string name="back" translatable="false">back</string>
+    <string name="placeholder" translatable="false">placeholder</string>
+    <string name="camera">camera</string>
+    <string name="submit" translatable="false">submit</string>
+    <string name="add_image_first">Please add image first.</string>
+    <string name="fill_description">Please fill the description form</string>
+    <string name="net_failed">Network failed</string>
+    <string name="choose_picture">Choose a Picture</string>
+    <string name="not_permitted">Not permitted.</string>
+    <string name="capture" translatable="false">capture</string>
+    <string name="switch_camera" translatable="false">switch camera</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirmation_logout">Are you sure you want to logout?</string>
+    <string name="no_data">Oops, no data found. Slide down to refresh!</string>
+</resources>
