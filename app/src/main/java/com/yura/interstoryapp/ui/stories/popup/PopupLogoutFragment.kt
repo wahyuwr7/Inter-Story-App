@@ -67,15 +67,19 @@ class PopupLogoutFragment : DialogFragment() {
     }
 
     private fun setupClickListeners(viewModel: PopupLogoutViewModel) {
-        binding.btnLogout.setOnClickListener {
-            ConfirmationDialogFragment(viewModel).show(
-                childFragmentManager, ConfirmationDialogFragment.TAG
-            )
-//            dismiss()
-        }
-        binding.btnCancel.setOnClickListener {
-            startActivity(Intent(requireContext(), MapsActivity::class.java))
-            dismiss()
+        with(binding){
+            btnLogout.setOnClickListener {
+                ConfirmationDialogFragment(viewModel).show(
+                    childFragmentManager, ConfirmationDialogFragment.TAG
+                )
+            }
+            btnMaps.setOnClickListener {
+                startActivity(Intent(requireContext(), MapsActivity::class.java))
+                dismiss()
+            }
+            btnClose.setOnClickListener {
+                dismiss()
+            }
         }
     }
 

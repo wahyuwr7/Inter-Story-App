@@ -1,10 +1,12 @@
 package com.yura.interstoryapp.ui.stories.add
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.yura.interstoryapp.R
 import com.yura.interstoryapp.data.Utils.bitmapToFile
 import com.yura.interstoryapp.data.Utils.dataStore
@@ -29,15 +33,21 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.util.*
 
 class AddStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddStoryBinding
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var lat: Double? = null
+    private var lon: Double? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -50,12 +60,18 @@ class AddStoryActivity : AppCompatActivity() {
         binding.apply {
             btnCamera.setOnClickListener { startCamera() }
             btnGallery.setOnClickListener { startGallery() }
-            btnSubmit.setOnClickListener { uploadStory() }
+            btnSubmit.setOnClickListener {
+                if (checkboxLocation.isChecked) {
+                    uploadStory(true)
+                } else {
+                    uploadStory(false)
+                }
+            }
             btnBack.setOnClickListener { finish() }
         }
     }
 
-    private fun uploadStory() {
+    private fun uploadStory(withLocation: Boolean) {
         binding.apply {
             btnSubmit.isEnabled = false
             val context = this@AddStoryActivity
@@ -70,6 +86,8 @@ class AddStoryActivity : AppCompatActivity() {
             } else {
                 val file = getFile
                 val stringDescription = etDescription.text.toString()
+                val latitude = lat.toString()
+                val longitude = lon.toString()
 
                 val reducedFile = file?.let { reduceFileImage(it) }
 
@@ -88,13 +106,30 @@ class AddStoryActivity : AppCompatActivity() {
 
                 viewModel.getUserToken().observe(context) { token ->
                     imageMultipart?.let {
-                        viewModel.uploadStory(token, stringDescription, it, context)
-                            .observe(context) { state ->
-                                loadingState(state)
-                                if (state) {
-                                    finish()
+                        if (withLocation) {
+                            viewModel.uploadStoryWithLocation(
+                                token,
+                                stringDescription,
+                                it,
+                                context,
+                                latitude,
+                                longitude
+                            )
+                                .observe(context) { state ->
+                                    loadingState(state)
+                                    if (state) {
+                                        finish()
+                                    }
                                 }
-                            }
+                        } else {
+                            viewModel.uploadStory(token, stringDescription, it, context)
+                                .observe(context) { state ->
+                                    loadingState(state)
+                                    if (state) {
+                                        finish()
+                                    }
+                                }
+                        }
                     }
                 }
             }
@@ -134,6 +169,58 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyLastLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyLastLocation()
+                }
+                else -> {
+                    // No location access granted.
+                }
+            }
+        }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getMyLastLocation() {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    lat = location.latitude
+                    lon = location.longitude
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.location_info),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
     }
 
     private var getFile: File? = null
@@ -197,5 +284,4 @@ class AddStoryActivity : AppCompatActivity() {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
-
 }

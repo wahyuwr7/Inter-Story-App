@@ -28,7 +28,7 @@
             android:id="@+id/img_placeholder"
             android:layout_width="350dp"
             android:layout_height="300dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:contentDescription="@string/placeholder"
             android:src="@drawable/ic_baseline_image_24"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:hint="@string/description"
             android:textColorHint="@color/hint"
             app:boxBackgroundColor="?attr/colorSecondaryVariant"
@@ -78,21 +78,32 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_description"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="90dp"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="3"
                 android:textColor="?attr/colorOnPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <CheckBox
+            android:id="@+id/checkbox_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/include_location"
+            android:buttonTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintTop_toBottomOf="@+id/layout_description" />
+
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/btn_rounded"
             android:text="@string/submit"
-            app:layout_constraintTop_toBottomOf="@id/layout_description" />
+            app:layout_constraintTop_toBottomOf="@id/checkbox_location" />
 
         <ImageView
             android:id="@+id/btn_back"

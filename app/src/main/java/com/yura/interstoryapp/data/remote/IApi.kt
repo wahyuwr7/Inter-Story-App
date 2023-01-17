@@ -42,6 +42,16 @@ interface IApi {
     fun uploadImage(
         @Header("Authorization") auth: String,
         @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody
+    ): Call<RegisterAndUploadResponse>
+
+    @Multipart
+    @POST("stories")
+    fun uploadImageWithLocation(
+        @Header("Authorization") auth: String,
+        @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
+        @Part("lat") lat : RequestBody,
+        @Part("lon") lon : RequestBody
     ): Call<RegisterAndUploadResponse>
 }

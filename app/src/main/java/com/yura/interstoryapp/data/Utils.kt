@@ -19,6 +19,7 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 object Utils {
     const val baseUrl = "https://story-api.dicoding.dev/v1/"
 

@@ -58,6 +58,55 @@ class AddStoryViewModel(private val pref: UserPrefs) : ViewModel() {
         return state
     }
 
+    fun uploadStoryWithLocation(
+        token: String,
+        desc: String,
+        imageMultipart: MultipartBody.Part,
+        context: Context,
+        lat: String,
+        lon: String
+    ): LiveData<Boolean> {
+        val state = MutableLiveData<Boolean>()
+        val description = desc.toRequestBody("text/plain".toMediaType())
+        val latitude = lat.toRequestBody("text/plain".toMediaType())
+        val longitude = lon.toRequestBody("text/plain".toMediaType())
+        val userToken = "Bearer $token"
+        val service = getApiService().uploadImageWithLocation(
+            userToken,
+            imageMultipart,
+            description,
+            latitude,
+            longitude
+        )
+
+        service.enqueue(object : Callback<RegisterAndUploadResponse> {
+            override fun onResponse(
+                call: Call<RegisterAndUploadResponse>,
+                response: Response<RegisterAndUploadResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null && responseBody.error == false) {
+                        Toast.makeText(context, responseBody.message, Toast.LENGTH_SHORT)
+                            .show()
+                        state.value = true
+                    } else {
+                        Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
+                        state.value = false
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterAndUploadResponse>, t: Throwable) {
+                Toast.makeText(context, context.getString(R.string.net_failed), Toast.LENGTH_SHORT)
+                    .show()
+                state.value = false
+            }
+        })
+
+        return state
+    }
+
     fun getUserToken(): LiveData<String> {
         return pref.getUserToken().asLiveData()
     }
