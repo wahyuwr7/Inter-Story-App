@@ -30,9 +30,8 @@ class LoginActivity : AppCompatActivity() {
         loadingState(false)
 
         backPressed()
-
         val pref = UserPrefs.getInstance(dataStore)
-        val viewModel = ViewModelProvider(this, VMFactory(pref))[LoginViewModel::class.java]
+        val viewModel = ViewModelProvider(this, VMFactory(pref, this))[LoginViewModel::class.java]
 
         binding.apply {
             etEmail.doOnTextChanged { text, _, _, _ ->

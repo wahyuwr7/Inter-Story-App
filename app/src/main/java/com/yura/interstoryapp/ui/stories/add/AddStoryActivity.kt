@@ -48,6 +48,7 @@ class AddStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        getMyLastLocation()
 
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -99,10 +100,9 @@ class AddStoryActivity : AppCompatActivity() {
                         it
                     )
                 }
-
                 val pref = UserPrefs.getInstance(dataStore)
                 val viewModel =
-                    ViewModelProvider(context, VMFactory(pref))[AddStoryViewModel::class.java]
+                    ViewModelProvider(context, VMFactory(pref, this@AddStoryActivity))[AddStoryViewModel::class.java]
 
                 viewModel.getUserToken().observe(context) { token ->
                     imageMultipart?.let {

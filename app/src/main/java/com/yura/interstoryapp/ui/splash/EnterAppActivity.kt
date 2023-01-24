@@ -22,7 +22,7 @@ class EnterAppActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val pref = UserPrefs.getInstance(dataStore)
-        val viewModel = ViewModelProvider(this, VMFactory(pref))[EnterAppViewModel::class.java]
+        val viewModel = ViewModelProvider(this, VMFactory(pref, this))[EnterAppViewModel::class.java]
 
         viewModel.getUserLoginState().observe(this) {
             if (it)

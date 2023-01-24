@@ -30,7 +30,7 @@ class StoriesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val pref = UserPrefs.getInstance(dataStore)
-        viewModel = ViewModelProvider(this, VMFactory(pref))[StoriesViewModel::class.java]
+        viewModel = ViewModelProvider(this, VMFactory(pref, this))[StoriesViewModel::class.java]
 
         backPressed()
         getProfile()
@@ -82,17 +82,22 @@ class StoriesActivity : AppCompatActivity() {
     }
 
     private fun showStories(pos: Int) {
-        viewModel.getUserToken().observe(this) { token ->
-            viewModel.getStories(token, this).observe(this) {
-                val adapter = StoriesAdapter(it)
+        val adapter = StoriesAdapter()
 
-                binding.apply {
-                    rvStories.layoutManager = LinearLayoutManager(this@StoriesActivity)
-                    rvStories.adapter = adapter
-                    rvStories.scrollToPosition(pos)
-                    layoutRefresh.isRefreshing = false
+        binding.apply {
+            rvStories.layoutManager = LinearLayoutManager(this@StoriesActivity)
+            rvStories.adapter = adapter
+            rvStories.adapter = adapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    adapter.retry()
                 }
+            )
+            viewModel.stories.observe(this@StoriesActivity) {
+                adapter.submitData(lifecycle, it)
             }
+            rvStories.scrollToPosition(pos)
+            layoutRefresh.isRefreshing = false
         }
+
     }
 }

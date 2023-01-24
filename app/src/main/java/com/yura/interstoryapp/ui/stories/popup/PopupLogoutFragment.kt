@@ -38,7 +38,7 @@ class PopupLogoutFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val pref = UserPrefs.getInstance(requireContext().dataStore)
-        val viewModel = ViewModelProvider(this, VMFactory(pref))[PopupLogoutViewModel::class.java]
+        val viewModel = ViewModelProvider(this, VMFactory(pref, requireContext()))[PopupLogoutViewModel::class.java]
         setupClickListeners(viewModel)
         setupView(viewModel)
     }

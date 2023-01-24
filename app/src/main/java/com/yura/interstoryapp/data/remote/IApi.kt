@@ -1,5 +1,6 @@
 package com.yura.interstoryapp.data.remote
 
+import com.yura.interstoryapp.data.remote.response.ListStoryItem
 import com.yura.interstoryapp.data.remote.response.LoginResponse
 import com.yura.interstoryapp.data.remote.response.RegisterAndUploadResponse
 import com.yura.interstoryapp.data.remote.response.StoriesResponse
@@ -29,7 +30,7 @@ interface IApi {
         @Header("Authorization") auth: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Call<StoriesResponse>
+    ): List<ListStoryItem>
 
     @GET("stories")
     fun getStoriesWithLocation(

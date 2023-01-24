@@ -27,7 +27,7 @@ class RegisterActivity : AppCompatActivity() {
         backPressed()
 
         val pref = UserPrefs.getInstance(dataStore)
-        val viewModel = ViewModelProvider(this, VMFactory(pref))[RegisterViewModel::class.java]
+        val viewModel = ViewModelProvider(this, VMFactory(pref, this))[RegisterViewModel::class.java]
 
         binding.apply {
             tvLogin.setOnClickListener {

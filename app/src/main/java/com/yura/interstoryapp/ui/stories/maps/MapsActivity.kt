@@ -57,7 +57,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
 
         val pref = UserPrefs.getInstance(dataStore)
-        viewModel = ViewModelProvider(this, VMFactory(pref))[MapsViewModel::class.java]
+
+        viewModel = ViewModelProvider(this, VMFactory(pref, this))[MapsViewModel::class.java]
 
         viewModel.getUserToken().observe(this) { token ->
             if (!token.isNullOrEmpty()) {

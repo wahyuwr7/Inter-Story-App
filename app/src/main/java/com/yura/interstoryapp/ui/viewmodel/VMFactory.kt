@@ -1,8 +1,12 @@
 package com.yura.interstoryapp.ui.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
+import com.yura.interstoryapp.data.remote.ApiConfig
+import com.yura.interstoryapp.data.remote.data.StoriesRepository
+import com.yura.interstoryapp.di.Injection
 import com.yura.interstoryapp.ui.auth.login.LoginViewModel
 import com.yura.interstoryapp.ui.auth.register.RegisterViewModel
 import com.yura.interstoryapp.ui.splash.EnterAppViewModel
@@ -11,30 +15,31 @@ import com.yura.interstoryapp.ui.stories.add.AddStoryViewModel
 import com.yura.interstoryapp.ui.stories.maps.MapsViewModel
 import com.yura.interstoryapp.ui.stories.popup.PopupLogoutViewModel
 
-class VMFactory(private val pref: UserPrefs) : ViewModelProvider.NewInstanceFactory() {
+class VMFactory(private val prefs: UserPrefs, private val context: Context) :
+    ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EnterAppViewModel::class.java)) {
-            return EnterAppViewModel(pref) as T
+            return EnterAppViewModel(prefs) as T
         }
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(pref) as T
+            return LoginViewModel(prefs) as T
         }
         if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
             return RegisterViewModel() as T
         }
         if (modelClass.isAssignableFrom(StoriesViewModel::class.java)) {
-            return StoriesViewModel(pref) as T
+            return StoriesViewModel(prefs, Injection.provideRepository(context)) as T
         }
         if (modelClass.isAssignableFrom(AddStoryViewModel::class.java)) {
-            return AddStoryViewModel(pref) as T
+            return AddStoryViewModel(prefs) as T
         }
         if (modelClass.isAssignableFrom(PopupLogoutViewModel::class.java)) {
-            return PopupLogoutViewModel(pref) as T
+            return PopupLogoutViewModel(prefs) as T
         }
         if (modelClass.isAssignableFrom(MapsViewModel::class.java)) {
-            return MapsViewModel(pref) as T
+            return MapsViewModel(prefs) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
