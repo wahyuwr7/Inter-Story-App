@@ -9,4 +9,8 @@ class EnterAppViewModel(private val pref: UserPrefs) : ViewModel() {
     fun getUserLoginState(): LiveData<Boolean> {
         return pref.getUserLoginState().asLiveData()
     }
+
+    fun getUserToken(): LiveData<String> {
+        return pref.getUserToken().asLiveData()
+    }
 }

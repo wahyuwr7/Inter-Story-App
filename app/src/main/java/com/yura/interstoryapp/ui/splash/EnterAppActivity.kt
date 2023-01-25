@@ -5,8 +5,9 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.yura.interstoryapp.data.Utils.dataStore
-import com.yura.interstoryapp.data.Utils.startIntent
+import com.yura.interstoryapp.data.utils.Utils.dataStore
+import com.yura.interstoryapp.data.utils.Utils.startIntent
+import com.yura.interstoryapp.data.utils.Utils.userAuth
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityEnterAppBinding
 import com.yura.interstoryapp.ui.auth.login.LoginActivity
@@ -25,11 +26,13 @@ class EnterAppActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this, VMFactory(pref, this))[EnterAppViewModel::class.java]
 
         viewModel.getUserLoginState().observe(this) {
-            if (it)
-                goToStory()
-            else
-                goToLogin()
-
+            viewModel.getUserToken().observe(this){ token ->
+                userAuth = token
+                if (it)
+                    goToStory()
+                else
+                    goToLogin()
+            }
         }
     }
 

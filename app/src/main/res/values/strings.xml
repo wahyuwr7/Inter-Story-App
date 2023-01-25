@@ -39,6 +39,7 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="close">close</string>
     <string name="include_location">Include location</string>
-    <string name="location_info">Location is not found. Try Again</string>
+    <string name="location_info">Could not get your location.</string>
     <string name="retry">Retry</string>
+    <string name="without_location">Sorry, we could not get your location now. Your story will be uploaded without your location.</string>
 </resources>

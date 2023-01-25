@@ -20,11 +20,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.yura.interstoryapp.R
-import com.yura.interstoryapp.data.Utils.bitmapToFile
-import com.yura.interstoryapp.data.Utils.dataStore
-import com.yura.interstoryapp.data.Utils.reduceFileImage
-import com.yura.interstoryapp.data.Utils.rotateBitmap
-import com.yura.interstoryapp.data.Utils.uriToFile
+import com.yura.interstoryapp.data.utils.Utils.bitmapToFile
+import com.yura.interstoryapp.data.utils.Utils.dataStore
+import com.yura.interstoryapp.data.utils.Utils.reduceFileImage
+import com.yura.interstoryapp.data.utils.Utils.rotateBitmap
+import com.yura.interstoryapp.data.utils.Utils.uriToFile
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityAddStoryBinding
 import com.yura.interstoryapp.ui.stories.add.camera.CameraActivity
@@ -102,7 +102,10 @@ class AddStoryActivity : AppCompatActivity() {
                 }
                 val pref = UserPrefs.getInstance(dataStore)
                 val viewModel =
-                    ViewModelProvider(context, VMFactory(pref, this@AddStoryActivity))[AddStoryViewModel::class.java]
+                    ViewModelProvider(
+                        context,
+                        VMFactory(pref, this@AddStoryActivity)
+                    )[AddStoryViewModel::class.java]
 
                 viewModel.getUserToken().observe(context) { token ->
                     imageMultipart?.let {
@@ -174,20 +177,8 @@ class AddStoryActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    // Precise location access granted.
-                    getMyLastLocation()
-                }
-                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                    // Only approximate location access granted.
-                    getMyLastLocation()
-                }
-                else -> {
-                    // No location access granted.
-                }
-            }
+        ) {
+            getMyLastLocation()
         }
 
     private fun checkPermission(permission: String): Boolean {
@@ -199,13 +190,14 @@ class AddStoryActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun getMyLastLocation() {
-        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-        ) {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     lat = location.latitude
                     lon = location.longitude
                 } else {
+                    binding.checkboxLocation.visibility = View.INVISIBLE
+                    binding.tvWithoutLocation.visibility = View.VISIBLE
                     Toast.makeText(
                         this,
                         getString(R.string.location_info),

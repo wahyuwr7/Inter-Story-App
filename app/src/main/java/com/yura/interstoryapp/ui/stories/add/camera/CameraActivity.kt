@@ -10,7 +10,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import com.yura.interstoryapp.data.Utils.createFile
+import com.yura.interstoryapp.data.utils.Utils.createFile
 import com.yura.interstoryapp.databinding.ActivityCameraBinding
 import com.yura.interstoryapp.ui.stories.add.AddStoryActivity
 import java.util.concurrent.ExecutorService

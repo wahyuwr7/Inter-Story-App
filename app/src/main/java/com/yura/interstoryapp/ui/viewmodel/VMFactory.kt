@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
-import com.yura.interstoryapp.data.remote.ApiConfig
-import com.yura.interstoryapp.data.remote.data.StoriesRepository
 import com.yura.interstoryapp.di.Injection
 import com.yura.interstoryapp.ui.auth.login.LoginViewModel
 import com.yura.interstoryapp.ui.auth.register.RegisterViewModel
@@ -30,7 +28,7 @@ class VMFactory(private val prefs: UserPrefs, private val context: Context) :
             return RegisterViewModel() as T
         }
         if (modelClass.isAssignableFrom(StoriesViewModel::class.java)) {
-            return StoriesViewModel(prefs, Injection.provideRepository(context)) as T
+            return StoriesViewModel(prefs, Injection.provideRepository()) as T
         }
         if (modelClass.isAssignableFrom(AddStoryViewModel::class.java)) {
             return AddStoryViewModel(prefs) as T

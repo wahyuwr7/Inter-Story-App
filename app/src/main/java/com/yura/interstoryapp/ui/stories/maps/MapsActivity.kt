@@ -15,7 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.yura.interstoryapp.R
-import com.yura.interstoryapp.data.Utils.dataStore
+import com.yura.interstoryapp.data.utils.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.data.remote.response.ListStoryItem
 import com.yura.interstoryapp.databinding.ActivityMapsBinding

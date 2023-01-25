@@ -8,7 +8,7 @@ import android.window.OnBackInvokedDispatcher
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.yura.interstoryapp.data.Utils.dataStore
+import com.yura.interstoryapp.data.utils.Utils.dataStore
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityRegisterBinding
 import com.yura.interstoryapp.ui.auth.login.LoginActivity

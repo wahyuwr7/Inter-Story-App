@@ -10,8 +10,8 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yura.interstoryapp.data.Utils.dataStore
-import com.yura.interstoryapp.data.Utils.itemPosition
+import com.yura.interstoryapp.data.utils.Utils.dataStore
+import com.yura.interstoryapp.data.utils.Utils.itemPosition
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.databinding.ActivityStoriesBinding
 import com.yura.interstoryapp.ui.stories.add.AddStoryActivity

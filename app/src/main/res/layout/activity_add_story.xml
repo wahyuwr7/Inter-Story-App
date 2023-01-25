@@ -96,6 +96,16 @@
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintTop_toBottomOf="@+id/layout_description" />
 
+        <TextView
+            android:id="@+id/tv_without_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/without_location"
+            android:textColor="?attr/colorOnPrimary"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_description" />
+
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yura.interstoryapp.R
+import com.yura.interstoryapp.data.utils.Utils.userAuth
 import com.yura.interstoryapp.data.local.prefs.UserPrefs
 import com.yura.interstoryapp.data.remote.ApiConfig
 import com.yura.interstoryapp.data.remote.response.LoginResponse
@@ -35,6 +36,7 @@ class LoginViewModel(
                         )
                     )
                     responseBody.loginResult?.let { saveUserData(it) }
+                    userAuth = responseBody.loginResult?.token.toString()
                     Toast.makeText(context, buildString {
                         append(context.getString(R.string.welcome))
                         append(responseBody.loginResult?.name)

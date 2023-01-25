@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yura.interstoryapp.R
-import com.yura.interstoryapp.data.Utils.itemPosition
+import com.yura.interstoryapp.data.utils.Utils.itemPosition
 import com.yura.interstoryapp.data.remote.response.ListStoryItem
-import com.yura.interstoryapp.data.remote.response.StoriesResponse
 import com.yura.interstoryapp.databinding.ItemStoriesBinding
 import com.yura.interstoryapp.ui.stories.detail.DetailActivity
 import com.yura.interstoryapp.ui.stories.detail.DetailActivity.Companion.DATA

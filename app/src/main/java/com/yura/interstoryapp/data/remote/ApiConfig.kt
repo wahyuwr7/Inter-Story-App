@@ -1,7 +1,7 @@
 package com.yura.interstoryapp.data.remote
 
 import com.yura.interstoryapp.BuildConfig
-import com.yura.interstoryapp.data.Utils.baseUrl
+import com.yura.interstoryapp.data.utils.Utils.baseUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

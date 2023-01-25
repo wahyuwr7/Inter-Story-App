@@ -1,4 +1,4 @@
-package com.yura.interstoryapp.data
+package com.yura.interstoryapp.data.utils
 
 import android.app.Application
 import android.content.ContentResolver
@@ -26,6 +26,8 @@ object Utils {
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     var itemPosition: Int = 0
+
+    var userAuth = ""
 
     private const val FILENAME_FORMAT = "dd-MMM-yy"
 

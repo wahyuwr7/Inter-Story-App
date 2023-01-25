@@ -30,7 +30,7 @@ interface IApi {
         @Header("Authorization") auth: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): List<ListStoryItem>
+    ): Call<StoriesResponse>
 
     @GET("stories")
     fun getStoriesWithLocation(
